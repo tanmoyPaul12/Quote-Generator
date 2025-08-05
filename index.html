@@ -9,13 +9,40 @@
 <body>
     <div class="quote-box">
         <h2>Quote of the day</h2>
-        <blockquote>Loading...</blockquote>
-        <span>Loading...</span>
+        <blockquote id="quote">Loading...</blockquote>
+        <span id="author">Loading...</span>
         <div>
-            <button>New Quote</button>
-            <button><img src="./img/icons8-x-50.png" alt="">Tweet</button>
+            <button onclick="getquote(api_url)">New Quote</button>
+
+
+            <button onclick="tweet()"><img src="./img/icons8-x-50.png" alt="">Tweet</button>
         </div>
     </div>
-    <script src="script.js"></script>
+
+
+    <script>
+        const quote = document.getElementById("quote")
+        const author = document.getElementById("author")
+        const key = `pIqMsIn5d3m/lxB5bkuVbw==9XbpmgBY6KKylT8u`
+        const api_url = `https://api.api-ninjas.com/v1/quotes`
+
+        function getquote(url){
+            fetch(url , {
+                headers:{
+                    'Content-Type': 'application/json',
+                    'X-Api-Key': key
+                }
+            }).then(res => res.json().then(data => {
+                quote.innerHTML = data[0].quote
+                author.innerHTML = data[0].author
+            }))}
+
+        getquote(api_url);
+        
+        function tweet(){
+            window.open("https://twitter.com/intent/tweet?text=" + quote.innerHTML +  "--- by "+ author.innerHTML,"Tweet Window","width = 600, height=300")
+        }
+    </script>
 </body>
 </html>
+
